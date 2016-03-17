@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Meg-AU Player</string>
+    <string name="stop">II</string>
+    <string name="play">PP</string>
+     <string name="nxt">NX</string>
+    <string name="pv">PV</string>
+    <string name="ff">FF</string>
+    <string name="fb">FB</string>
+
+</resources>
