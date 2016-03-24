@@ -16,30 +16,31 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ListView lv;
     String[] items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-
-        lv =(ListView) findViewById(R.id.lvPlayList);
-        final ArrayList<File> mySongs=findSongs(Environment.getExternalStorageDirectory());
-        items =new String[mySongs.size()];
-        for (int i =0; i<mySongs.size(); i++){ //test icinokunan .mp3 yazdir
+        lv = (ListView) findViewById(R.id.lvPlayList);
+        final ArrayList<File> mySongs = findSongs(Environment.getExternalStorageDirectory());
+        items = new String[mySongs.size()];
+        for (int i = 0; i < mySongs.size(); i++) { //test icinokunan .mp3 yazdir
             //toast(mySongs.get(i).getName().toString());
-            items[i]=mySongs.get(i).getName().toString().replace(".mp3",""); //isimleri oku sondaki .mp3 sil
+            items[i] = mySongs.get(i).getName().toString().replace(".mp3", ""); //isimleri oku sondaki .mp3 sil
         }
-        ArrayAdapter<String> adp=new ArrayAdapter<String>(getApplicationContext(),R.layout.song_layout,R.id.textView,items);
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(getApplicationContext(), R.layout.song_layout, R.id.textView, items);
         lv.setAdapter(adp);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getApplicationContext(),Player.class).putExtra("pos",position).putExtra("songlist",mySongs));
+                startActivity(new Intent(getApplicationContext(), Player.class).putExtra("pos", position).putExtra("songlist", mySongs));
             }
         });
     }
+
 
 
     public ArrayList<File> findSongs(File root){
@@ -50,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 al.addAll(findSongs(singleFile));
             }
             else{
-                if(singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".MP3")){ //||singleFile.getName().endsWith("wav") // dizinde .mp3 varsa al e ekle
+                if(singleFile.getName().endsWith(".mp3") || singleFile.getName().endsWith(".MP3")) //||singleFile.getName().endsWith("wav") // dizinde .mp3 varsa al e ekle
                     al.add(singleFile);
-                }
-                else
-                    toast("mp3 bulunamadı");
             }
         }
         return  al;

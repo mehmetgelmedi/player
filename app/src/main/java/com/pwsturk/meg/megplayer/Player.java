@@ -31,6 +31,8 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         btFF=(Button) findViewById(R.id.btFF);
         btNxt=(Button) findViewById(R.id.btNxt);
         btPv=(Button) findViewById(R.id.btPv);
+        btPlay.setBackgroundResource(R.drawable.btnpause);
+
 
         btPlay.setOnClickListener(this);
         btFB.setOnClickListener(this);
@@ -144,3 +146,4 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         }
     }
 }
+
