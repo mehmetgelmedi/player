@@ -8,6 +8,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="PV_ACTION"/>
+                <action android:name="PP_ACTION"/>
+                <action android:name="NX_ACTION"/>
+            </intent-filter>
+        </receiver>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
