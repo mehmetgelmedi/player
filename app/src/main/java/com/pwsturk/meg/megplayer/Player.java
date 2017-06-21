@@ -1,11 +1,13 @@
 package com.pwsturk.meg.megplayer;
 
+import android.animation.ValueAnimator;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -23,6 +27,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Player extends AppCompatActivity implements View.OnClickListener {
+    private Handler mHandler = new Handler();
+    View view;
+
     static MediaPlayer mp;
     static ArrayList<File> mySongs;
     static SeekBar sb;
@@ -31,7 +38,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
     Button btFB;
     Button btNxt;
     Button btPv;
-    ImageView imgResim;
+    static ImageView imgResim;
     static int position;
     static Uri u;
     Thread updateSeekBar;
@@ -48,7 +55,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         btNxt=(Button) findViewById(R.id.btNxt);
         btPv=(Button) findViewById(R.id.btPv);
         imgResim = (ImageView) findViewById(R.id.resim);
-
+        
         btPlay.setOnClickListener(this);
         btFB.setOnClickListener(this);
         btFF.setOnClickListener(this);
@@ -130,10 +137,12 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.btNxt:
                 next();
+                AnimationGetir();
                 bildirimEkle(position);
                 break;
             case R.id.btPv:
                 prev();
+                AnimationGetir();
                 bildirimEkle(position);
                 break;
         }
@@ -214,6 +223,22 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
     }
     public static Context getAppContext(){
         return  Player.context;
+    }
+    public  void  AnimationGetir(){
+        ValueAnimator animator = ValueAnimator.ofFloat(0, 360);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                // 2
+                imgResim.setRotation(value);
+            }
+        });
+
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(1999);
+        animator.start();
     }
 }
 
