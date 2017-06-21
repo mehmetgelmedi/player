@@ -10,7 +10,11 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +31,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
     Button btFB;
     Button btNxt;
     Button btPv;
+    ImageView imgResim;
     static int position;
     static Uri u;
     Thread updateSeekBar;
@@ -42,6 +47,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         btFF=(Button) findViewById(R.id.btFF);
         btNxt=(Button) findViewById(R.id.btNxt);
         btPv=(Button) findViewById(R.id.btPv);
+        imgResim = (ImageView) findViewById(R.id.resim);
 
         btPlay.setOnClickListener(this);
         btFB.setOnClickListener(this);
