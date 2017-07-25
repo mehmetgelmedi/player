@@ -1,34 +1,24 @@
 package com.pwsturk.meg.megplayer;
 
 import android.animation.ValueAnimator;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class Player extends AppCompatActivity implements View.OnClickListener {
-    private Handler mHandler = new Handler();
-    View view;
 
     static MediaPlayer mp;
     static ArrayList<File> mySongs;
@@ -76,6 +66,7 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
                         sleep(500);//seekbar değişim için bekleme süresi 0.5s,  tahminen problemler burada
                         currentPosition =mp.getCurrentPosition(); // mp3 ün o anki konumu
                         sb.setProgress(currentPosition); // o anki konumu seekbar a at
+                        Log.d("tag",currentPosition+""); // unutma
                     }catch (InterruptedException e){
                         e.printStackTrace();
                     }
@@ -148,43 +139,15 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         }
     }
     public static void bildirimEkle(int oynId) {
-        tvParcaAdi.setText(mySongs.get(position).getName().toString().replace(".mp3", ""));
-        Intent pv=new Intent();
-        Intent pp=new Intent();
-        Intent nx=new Intent();
-
-        pv.setAction("PV_ACTION");
-        PendingIntent pendingIntentpv = PendingIntent.getBroadcast(getAppContext(), 0, pv, PendingIntent.FLAG_UPDATE_CURRENT);
-        pp.setAction("PP_ACTION");
-        PendingIntent pendingIntentpp = PendingIntent.getBroadcast(getAppContext(), 0, pp, PendingIntent.FLAG_UPDATE_CURRENT);
-        nx.setAction("NX_ACTION");
-        PendingIntent pendingIntentnx = PendingIntent.getBroadcast(getAppContext(), 0, nx, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(getAppContext())
-                        .setSmallIcon(R.drawable.megau)
-                        .setContentTitle("MEG-AU Player")
-                        .addAction(R.drawable.kk, "PV",pendingIntentpv)
-                        .addAction(R.drawable.kk, "II", pendingIntentpp)
-                        .addAction(R.drawable.kk, "NX", pendingIntentnx)
-                        .setContentText(mySongs.get(oynId).getName().toString().replace(".mp3", ""));
-
-
-        Intent notificationIntent = new Intent(getAppContext(), MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(getAppContext(), 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-
-        NotificationManager manager = (NotificationManager) getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(388, builder.build());
+        new Notification(getAppContext()).bildirimEkle(mySongs.get(position).getName());
     }
     public static void playorstop(){
         if(mp.isPlaying()){
-            btPlay.setText("GO");
+            btPlay.setBackgroundResource(R.drawable.play);
             mp.pause();
         }
         else {
-            btPlay.setText("II");
+            btPlay.setBackgroundResource(R.drawable.stop);
             mp.start();
         }
     }
@@ -197,7 +160,6 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         mp=MediaPlayer.create(getAppContext(), u);
         mp.start();
         bildirimEkle(position);
-        btPlay.setText("II");
         sb.setMax(mp.getDuration());
         tvParcaAdi.setText(mySongs.get(position).getName().toString().replace(".mp3", ""));
     }
@@ -217,7 +179,6 @@ public class Player extends AppCompatActivity implements View.OnClickListener {
         mp= MediaPlayer.create(getAppContext(),u);
         mp.start();
         bildirimEkle(position);
-        btPlay.setText("II");
         sb.setMax(mp.getDuration());
         tvParcaAdi.setText(mySongs.get(position).getName().toString().replace(".mp3", ""));
     }

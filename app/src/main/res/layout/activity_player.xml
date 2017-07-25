@@ -27,7 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="10dp"
+                android:textSize="14dp"
+                android:fontFamily="cursive"
                 android:text="Parça Adı"
                 android:id="@+id/parcaAdi"
                 android:layout_alignRight="@+id/seekBar"
@@ -82,7 +83,7 @@
                 android:layout_margin="10dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/play"
+                android:background="@drawable/stop"
                 android:id="@+id/btPlay"/>
             <!--10 sn ileri-->
             <Button
